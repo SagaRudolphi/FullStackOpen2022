@@ -1,0 +1,11 @@
+
+Note on Browser:
+JavaScript has an event handler registred to handle the form submit event. 
+Eventh handler creates the new note and adds it to the list. Then renders the list on the page and sends the new note to the server with a HTTP POST.
+It also defines that the data sent over is of the type JSON. 
+
+
+Browser -> Server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+Server -> Browser: Status code 201 created {"message": "note created"}
+
+

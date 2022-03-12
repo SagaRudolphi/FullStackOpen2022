@@ -1,0 +1,30 @@
+Note on Browser:
+HTML form-element defines the action and method for when clicking the button.
+End note
+
+Browser -> Server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+Server -> Browser: HTTP Status Code 302
+
+Note over server:
+Server recieves the data (the note) in the body of the HTTP POST and push the data (note and adds a date) into an array.  
+Server response 302 is a URL redirect and asks browser to do a new HTTP GET to .../notes to reload the page.
+End note 
+
+
+Browser -> Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+Server -> Browser: HTML-code
+Browser -> Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+Server -> Browser: main.css
+Browser -> Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+Server -> Browser: main.js
+
+Note over browser:
+Browser executes js-code, which requests JSON data from the server .../data.json
+End note
+
+Browser -> Server: https://studies.cs.helsinki.fi/exampleapp/data.json
+Server -> Browser: [{"content":"adfaf","date":"2022-03-11T17:43:59.568Z"}, ...]
+
+Note over browser:
+Browser executes an event handler that renders the notes to the page. 
+End note

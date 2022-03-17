@@ -1,31 +1,34 @@
 
 const App = () => {
-  const course = 'Half Stack application development'
-  const part1 = {
-    name: 'Fundamentals of React',
-    exercises: 10  
-  }
-  const part2 = {
-    name: 'Using props to pass data',
-    exercises: 7
-  }
-  const part3 = {
-    name: 'State of a component', 
-    exercises: 14
-  }
+  const course = {
+    name: 'Half Stack application development',
+    parts: [
+      {
+        name: 'Fundamentas of React', 
+        exercises: 10
+      }, 
+      {
+        name: 'Using props to pass data', 
+        exercises: 7
+      },
+      {
+        name: 'State of a component', 
+        exercises: 14
+      }
+    ]
+  } 
+
   
   return (
     <div>
-      <Header text={course} />
-      <Content part1 = {part1} part2 = {part2} part3 = {part3}/>
-      <Total exe1 = {part1.exercises} exe2 = {part2.exercises} exe3 = {part3.exercises}/>
+      <Header text={course.name} />
+      <Content parts = {course.parts} />
+      <Total exercises = {course.parts}/>
     </div>
   );
 }
 
 const Header = (props) => {
-
-  console.log(props)
 
   return (
   <div> 
@@ -36,15 +39,16 @@ const Header = (props) => {
 
 const Content = (props) => {
   
-  console.log(props)
-  
-  return (
+ let allparts = [] 
+
+ props.parts.forEach(element => {
+    console.log(<Part name = {element.name} exercises = {element.exercises}/>)
+    allparts.push(<Part name = {element.name} exercises = {element.exercises}/>)
+  });
+
+  return(
     <div>
-
-      <Part part = {props.part1.name} exercises = {props.part1.exercises}/>
-      <Part part = {props.part2.name} exercises = {props.part2.exercises}/>
-      <Part part = {props.part3.name} exercises = {props.part3.exercises}/>
-
+      {allparts}
     </div>
   )
 }
@@ -52,7 +56,7 @@ const Content = (props) => {
 const Part = (props) => {
   return (
     <div>
-      <p>{props.part} {props.exercises}</p>
+      <p>{props.name} {props.exercises}</p>
     </div>
   )             
 }
@@ -62,21 +66,17 @@ const Total = (props) => {
   
   console.log(props)
   
+  let tot = 0
+
+  props.exercises.forEach(element => {
+   tot += element.exercises
+  } )
+
   return (
     <div>
-      <p>Number of exercises: {props.exe1 + props.exe2 + props.exe3}</p>
+      <p>Number of exercises: {tot}</p>
     </div>
   )
 }
-
-
-const Part = (props) => {
-  return (
-    <div>
-      <p>{props.part} {props.exercises}</p>
-    </div>
-  )             
-}
-
 
 export default App;

@@ -1,4 +1,56 @@
 
+
+const Header = ({text}) => {
+
+  return (
+  <div> 
+    <h1>{text}</h1>
+  </div>
+)
+}
+
+const Content = ({parts}) => {
+  
+ let allparts = [] 
+
+ parts.forEach(element => {
+    console.log(<Part name = {element.name} exercises = {element.exercises}/>)
+    allparts.push(<Part name = {element.name} exercises = {element.exercises}/>)
+  });
+
+  return(
+    <div>
+      {allparts}
+    </div>
+  )
+}
+
+const Part = ({name, exercises}) => {
+  return (
+    <div>
+      <p>{name} {exercises}</p>
+    </div>
+  )             
+}
+
+
+const Total = ({exercises}) => {
+  
+  console.log(exercises)
+  
+  let tot = 0
+
+  exercises.forEach(element => {
+   tot += element.exercises
+  } )
+
+  return (
+    <div>
+      <p>Number of exercises: {tot}</p>
+    </div>
+  )
+}
+
 const App = () => {
   const course = {
     name: 'Half Stack application development',
@@ -18,6 +70,7 @@ const App = () => {
     ]
   } 
 
+
   
   return (
     <div>
@@ -28,55 +81,5 @@ const App = () => {
   );
 }
 
-const Header = (props) => {
-
-  return (
-  <div> 
-    <h1>{props.text}</h1>
-  </div>
-)
-}
-
-const Content = (props) => {
-  
- let allparts = [] 
-
- props.parts.forEach(element => {
-    console.log(<Part name = {element.name} exercises = {element.exercises}/>)
-    allparts.push(<Part name = {element.name} exercises = {element.exercises}/>)
-  });
-
-  return(
-    <div>
-      {allparts}
-    </div>
-  )
-}
-
-const Part = (props) => {
-  return (
-    <div>
-      <p>{props.name} {props.exercises}</p>
-    </div>
-  )             
-}
-
-
-const Total = (props) => {
-  
-  console.log(props)
-  
-  let tot = 0
-
-  props.exercises.forEach(element => {
-   tot += element.exercises
-  } )
-
-  return (
-    <div>
-      <p>Number of exercises: {tot}</p>
-    </div>
-  )
-}
 
 export default App;

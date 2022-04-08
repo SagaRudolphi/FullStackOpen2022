@@ -19,14 +19,33 @@ const Statistics = (props) => {
     )
   }
     return (
-      <div>
-        <p>Good: {props.good}</p>
-        <p>Neutral: {props.neutral}</p>
-        <p>Bad: {props.bad}</p>
-        <p>All: {props.allVotes}</p> 
-        <p>Avarage: {(props.good - props.bad)/props.allVotes}</p> 
-        <p>Percentage: {(props.good / props.allVotes) * 100} % </p>
-      </div>
+
+        <table>
+          <tr>
+          <td>Good:</td>
+          <td>{props.good}</td>
+          </tr>
+          <tr>
+          <td>Neutral:</td>
+          <td>{props.neutral}</td>
+          </tr>
+          <tr>
+          <td>Bad:</td>
+          <td>{props.bad}</td>
+          </tr>
+          <tr>
+          <td>All:</td>
+          <td>{props.allVotes}</td>
+          </tr>
+          <tr>
+          <td>Avarage:</td>
+          <td>{(props.good - props.bad)/props.allVotes}</td>
+          </tr>
+          <tr>
+          <td>Avarage:</td>
+          <td>{(props.good / props.allVotes) * 100} %</td>
+          </tr>
+          </table>
     )
 }
 

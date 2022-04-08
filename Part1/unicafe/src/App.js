@@ -9,9 +9,13 @@ const Button = (props ) => {
 }
 
 
-const Statistics = (props) => {
+const Statistics = ({good, neutral, bad}) => {
 
-  if (props.allVotes === 0){
+  const totalVotes = good + neutral + bad
+  const avarageVotes = (good - bad) / totalVotes
+  const positiveVotes = (good / totalVotes) * 100
+
+  if (totalVotes === 0){
     return (
       <div> 
           No feedback given
@@ -24,27 +28,27 @@ const Statistics = (props) => {
         <tbody>
           <tr>
             <td>Good:</td>
-            <td>{props.good}</td>
+            <td>{good}</td>
           </tr>
           <tr>
             <td>Neutral:</td>
-            <td>{props.neutral}</td>
+            <td>{neutral}</td>
           </tr>
           <tr>
             <td>Bad:</td>
-            <td>{props.bad}</td>
+            <td>{bad}</td>
           </tr>
           <tr>
             <td>All:</td>
-            <td>{props.allVotes}</td>
+            <td>{totalVotes}</td>
           </tr>
           <tr>
             <td>Avarage:</td>
-            <td>{(props.good - props.bad) / props.allVotes}</td>
+            <td>{avarageVotes}</td>
           </tr>
           <tr>
-            <td>Avarage:</td>
-            <td>{(props.good / props.allVotes) * 100} %</td>
+            <td>Positive:</td>
+            <td>{positiveVotes} %</td>
           </tr>
         </tbody>
       </table>
@@ -56,27 +60,27 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
-  const [allVotes, setAll] = useState(0)
+  
  
 
   const handleGoodClicks = () => {
     setGood(good + 1)
-    setAll(allVotes + 1)
+   
   }
   
   const handleNeutralClicks = () => {
     setNeutral(neutral + 1)
-    setAll(allVotes + 1)
+ 
   }
 
   const handleBadClicks = () => {
     setBad(bad + 1)
-    setAll(allVotes + 1)
+ 
   }
 
 
   return (
-    console.log('Good: ', good, ' Neutral: ', neutral, ' Bad: ', bad, ' All: ', allVotes),
+    console.log('Good: ', good, ' Neutral: ', neutral, ' Bad: ', bad),
     <div>
       <div>
       <h1>Give feedback</h1>
@@ -85,7 +89,7 @@ const App = () => {
       <Button handleClick={() => handleBadClicks()} text="Bad"/>
     </div>
     <h1>Statistics</h1>
-    <Statistics bad = {bad} good = {good} neutral = {neutral} allVotes = {allVotes} />
+    <Statistics bad = {bad} good = {good} neutral = {neutral}/>
     </div>
     
   );

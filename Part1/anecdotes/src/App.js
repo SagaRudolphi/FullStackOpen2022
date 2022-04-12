@@ -1,16 +1,51 @@
+
 import { useState } from 'react'
+
+
+const HighestVotes = (props) => {
+  const votes = Object.values(props.allVotes)
+  console.log('values', votes)
+  
+  const mostVotes = Math.max(...votes)
+  console.log('max', mostVotes)
+
+  const mostVotesIndex = votes.indexOf(mostVotes)
+  console.log('index of: ', mostVotesIndex)
+
+  const bestAnecdote = props.anecdotes[mostVotesIndex]
+
+  if (mostVotes === 0){
+    return (
+      <div> No votes yet! </div>
+    )
+  }
+  return (
+    <div>
+      <p>{bestAnecdote}</p>
+      <p>has {mostVotes} votes</p>
+    </div>
+
+  )
+}
 
 const RandomButton = (props) => {
     return(
-      <button onClick={props.handleClick}>Random!</button>
+      <button onClick={props.handleClick}>Next anecdote</button>
     )
 }
 
-function getRandomInt(min, max) {
+const VoteBtn = (props) => {
+  return (
+    <button onClick={props.handleClick}>Vote for this anecdote</button>
+  )
+}
+
+const getRandomInt = (min, max) => {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random()*(max - min + 1) + min);
 }
+
 
 const App = () => {
   const anecdotes = [
@@ -22,21 +57,47 @@ const App = () => {
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients'
   ]
-   
+  
+  const votes = new Uint8Array(7)
+
   const [selected, setSelected] = useState(0)
+  const [votesArr, setVotes] = useState(votes)
+ 
 
-  const RandomAnecdote = () => {
+  const randomAnecdote = () => {
       const randomnumber = getRandomInt(0, 6)
-      console.log(randomnumber)
-
       setSelected(randomnumber)
   }
 
+  const voteAnecdote = () => {
+    const allVotes = {...votesArr} 
+    allVotes[selected] += 1
+    setVotes(allVotes)
+    
+  }
+
+ 
+
+  console.log(votesArr)
+
+  
+
   return (
     <div>
-      {anecdotes[selected]}
+      <h1>
+        Anecdote of the day:
+      </h1>
+      <p>   {anecdotes[selected]} </p>
+        This anecdote has {votesArr[selected]} votes
       <div>
-      <RandomButton handleClick={() => RandomAnecdote()}/>
+        <VoteBtn handleClick={() => voteAnecdote()} />
+        <RandomButton handleClick={() => randomAnecdote()} />
+      </div>
+      <div>
+
+
+        <h1>Anecdote with most votes:</h1>
+        <HighestVotes allVotes={votesArr} anecdotes={anecdotes} />
       </div>
     </div>
   )

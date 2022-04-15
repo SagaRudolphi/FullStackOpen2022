@@ -1,23 +1,31 @@
 import {useState} from 'react'
 import Person from './components/Persons'
 
+
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas' }
-  ]) 
+  ])
   const [newName, setNewName] = useState('')
 
   const addPerson = (event) => {
+    
     event.preventDefault()
-    console.log('submit clicked', event.target)
-
+    
+    console.log('submit clicked: ', event.target)
+    console.log('does exist: ', persons.some(person => person.name === newName))
+    
     const personObject = {
       name: newName
     }
 
-    setPersons(persons.concat(personObject))
-    setNewName('')
+    persons.some(person => person.name === newName)
+      ? window.alert(`${newName} is already added to the phonebook`)
+      : setPersons(persons.concat(personObject))
+        setNewName('')
   }
+
 
   const handleAddPerson = (event) => {
     console.log(event.target.value)

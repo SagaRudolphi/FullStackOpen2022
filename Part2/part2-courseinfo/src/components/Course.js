@@ -13,17 +13,15 @@ const Content = ({ parts }) =>
       <Part key={part.id} part={part} />)}
   </>
 
-const Header = ({ course }) => <h2>{course.name}</h2>
+const Header = ({ courseName }) => <h2>{courseName}</h2>
 
-const Course = ({ courses }) => {
+const Course = ({ course }) => {
   return (
-    courses.map(course =>
-      <div key = {course.id}>
-        <Header course={course} />
-        <Content parts={course.parts} />
-        <Total sum={course.parts.map(part => part.exercises).reduce((previousVal, currentVal) => previousVal + currentVal, 0)} />
-      </div>
-    )
+    <div>
+      <Header courseName={course.name} />
+      <Content parts={course.parts} />
+      <Total sum={course.parts.map(part => part.exercises).reduce((previousVal, currentVal) => previousVal + currentVal, 0)} />
+    </div>
   )
 }
 

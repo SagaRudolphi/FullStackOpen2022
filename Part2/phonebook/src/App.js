@@ -12,6 +12,7 @@ const App = () => {
   ])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [newFilter, setNewFilter] = useState('')
 
   const addPerson = (event) => {
     
@@ -19,7 +20,8 @@ const App = () => {
     
     console.log('submit clicked: ', event.target)
     console.log('does exist: ', persons.some(person => person.name === newName))
-    
+
+
     const personObject = {
       name: newName,
       number: newNumber
@@ -43,23 +45,44 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+
+
+  const handleNewFilter = (event) => {
+    console.log(event.target.value)
+    setNewFilter(event.target.value)
+    
+  }
+
+  const personSearch = newFilter === ''
+  ? persons 
+  : persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase()))
+
+ 
+
   return (
     <div>
       <h2>Phonebook</h2>
+  
+        <div>
+          Filter: <input value={newFilter} onChange={handleNewFilter}/>
+        </div>
+   
+      <h2>Add a new</h2>
       <form onSubmit={addPerson}>
         <div>
-          name: <input value={newName} onChange={handleNewPerson} />
+          Name: <input value={newName} onChange={handleNewPerson} />
         </div>
         <div>
-          number: <input value={newNumber} onChange={handleNewNumber}/>
+          Number: <input value={newNumber} onChange={handleNewNumber} />
         </div>
         <div>
           <button type="submit">Add</button>
         </div>
       </form>
       <h2>Numbers</h2>
-      {persons.map(person =>
-        <Person key={person.name} person={person} />
+      {console.log('all searched people', personSearch)}
+      {personSearch.map(person =>
+        <Person key={person.name} person={person} filter={newFilter}/>
       )}
     </div>
   )

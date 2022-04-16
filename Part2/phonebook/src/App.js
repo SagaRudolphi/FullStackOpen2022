@@ -1,18 +1,30 @@
-import {useState} from 'react'
-import Persons from './components/Persons'
+import {useState, useEffect} from 'react'
+import axios from 'axios'
 import AddForm from './components/AddForm'
 import Search from './components/Search'
+import Persons from './components/Persons'
 
 const App = () => {
-  const [persons, setPersons] = useState([
+  const [persons, setPersons] = useState([])
+
+/*   ([
     { name: 'Arto Hellas', number: '040-123456', id: 1 },
     { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
     { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
     { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
-  ])
+  ]) */
+
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
+
+ useEffect(() => {
+    axios
+      .get('http://localhost:3001/db')
+      .then(response => {
+        setPersons(response.data.persons)
+      })
+  }, [])
 
   const addPerson = (event) => {
     
@@ -50,7 +62,7 @@ const App = () => {
   }
 
   const searchPersons = newFilter === ''
-  ? persons 
+  ? persons
   : persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase()))
 
   return (
@@ -65,7 +77,7 @@ const App = () => {
       </div>
       <h2>Numbers</h2>
       <div>
-        <Persons persons={searchPersons}/>
+        {<Persons persons={searchPersons} />}
       </div>
     </div>
   )

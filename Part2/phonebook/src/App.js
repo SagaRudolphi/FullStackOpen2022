@@ -20,9 +20,9 @@ const App = () => {
 
  useEffect(() => {
     axios
-      .get('http://localhost:3001/db')
+      .get('http://localhost:3001/persons')
       .then(response => {
-        setPersons(response.data.persons)
+        setPersons(response.data)
       })
   }, [])
 
@@ -30,20 +30,29 @@ const App = () => {
     
     event.preventDefault()
     
-    console.log('submit clicked: ', event.target)
+   /*  console.log('submit clicked: ', event.target)
     console.log('does exist: ', persons.some(person => person.name === newName))
-
+ */
 
     const personObject = {
       name: newName,
-      number: newNumber
+      number: newNumber,
+      id: persons.length + 1
     }
 
-    persons.some(person => person.name === newName)
+    axios 
+    .post('http://localhost:3001/persons', personObject)
+    .then(response =>  
+      setPersons(persons.concat(response.data)),
+      setNewName(''),
+      setNewNumber('')
+    )
+
+/*     persons.some(person => person.name === newName)
       ? window.alert(`${newName} is already added to the phonebook`)
       : setPersons(persons.concat(personObject))
         setNewName('')
-        setNewNumber('')
+        setNewNumber('') */
   }
 
   const handleNewPerson = (event) => {

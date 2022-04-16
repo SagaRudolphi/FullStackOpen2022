@@ -3,36 +3,25 @@ import axios from 'axios'
 import AddForm from './components/AddForm'
 import Search from './components/Search'
 import Persons from './components/Persons'
+import personService from './services/Contacts'
 
 const App = () => {
   const [persons, setPersons] = useState([])
-
-/*   ([
-    { name: 'Arto Hellas', number: '040-123456', id: 1 },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
-  ]) */
-
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
 
- useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
+  useEffect(() => {
+    personService
+      .getAll()
+      .then(initialContacts => {
+        setPersons(initialContacts)
       })
   }, [])
 
   const addPerson = (event) => {
-    
+
     event.preventDefault()
-    
-   /*  console.log('submit clicked: ', event.target)
-    console.log('does exist: ', persons.some(person => person.name === newName))
- */
 
     const personObject = {
       name: newName,
@@ -40,19 +29,15 @@ const App = () => {
       id: persons.length + 1
     }
 
-    axios 
-    .post('http://localhost:3001/persons', personObject)
-    .then(response =>  
-      setPersons(persons.concat(response.data)),
-      setNewName(''),
-      setNewNumber('')
-    )
-
-/*     persons.some(person => person.name === newName)
+    persons.some(person => person.name === newName)
       ? window.alert(`${newName} is already added to the phonebook`)
-      : setPersons(persons.concat(personObject))
-        setNewName('')
-        setNewNumber('') */
+      : personService
+        .create(personObject)
+        .then(returnedPerson =>
+          setPersons(persons.concat(returnedPerson)),
+          setNewName(''),
+          setNewFilter('')
+        )
   }
 
   const handleNewPerson = (event) => {
@@ -71,8 +56,8 @@ const App = () => {
   }
 
   const searchPersons = newFilter === ''
-  ? persons
-  : persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase()))
+    ? persons
+    : persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase()))
 
   return (
     <div>

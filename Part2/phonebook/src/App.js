@@ -1,15 +1,19 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import AddForm from './components/AddForm'
 import Search from './components/Search'
 import Person from './components/Persons'
+import ErrorNotification from './components/ErrorNotification'
+import NotificationSuccessful from './components/SuccessNotification'
 import personService from './services/Contacts'
+
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
+  const [successNotification, setSuccess] = useState(null)
+  const [errorMessage, setError] = useState(null)
 
   useEffect(() => {
     personService
@@ -28,7 +32,19 @@ const App = () => {
       personService
         .remove(id)
         .then(response => {
-          personService.getAll().then(allContacts => { setPersons(allContacts) })
+          personService.getAll().then(allContacts => { setPersons(allContacts)
+            setSuccess(`${deletedPerson.name} was successfully deleted from the phonebook`)
+            setTimeout(() => {
+              setSuccess(null)
+            }, 5000)
+          })
+        })
+        .catch(error => {
+          console.log('error!')
+          setError(`Couldn't delete contact. ${deletedPerson.name} has already been deleted from the phonebook`)
+          setTimeout(() => {
+            setError(null)
+          }, 5000)
         })
     }
   }
@@ -46,28 +62,43 @@ const App = () => {
     if (persons.some(person => person.name === newName)) {
       const oldPerson = persons.find(p => p.name === newName)
 
-      if (window.confirm(`${newName} is already in the phonebook. Do you want to update the number?`)) {
+      if (window.confirm(`${newName} is already in the phonebook. Do you want to replace the old number with a new one?`)) {
         personService
           .update(oldPerson.id, personObject)
           .then(returnedPerson => {
-            console.log('returned ', returnedPerson)
-            console.log('oldPerson ', oldPerson)
-            setPersons(persons.map(person => person.id !== oldPerson.id ? person : returnedPerson))}
-          )
+            setSuccess(`${newName} was successfully updated`)
+            setTimeout(() => {
+              setSuccess(null)
+            }, 5000)
+            setPersons(persons.map(person => person.id !== oldPerson.id ? person : returnedPerson))
+            setNewName('')
+            setNewNumber('')
+          }
+        )
+        .catch(error => {
+          console.log('error!')
+          setError(`Failed to update contact. ${newName} has already been deleted from the phonebook`)
+          setTimeout(() => {
+            setError(null)
+          }, 5000)
+        })  
       }
-
-      
-    
-    else(
-    personService
-      .create(personObject)
-      .then(returnedPerson =>
-        setPersons(persons.concat(returnedPerson)),
-        setNewName(''),
-        setNewNumber('')
-      ))
+    }
+    else (
+      personService
+        .create(personObject)
+        .then(returnedPerson =>
+          setPersons(persons.concat(returnedPerson)),
+          setSuccess(`${personObject.name} was successfully added to the phonebook`),
+          setTimeout(() => {
+            setSuccess(null)
+          }, 5000),
+          setNewName(''),
+          setNewNumber('')
+        )
+    )
   }
-}
+  
 
   const handleNewPerson = (event) => {
     console.log(event.target.value)
@@ -91,6 +122,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <NotificationSuccessful message={successNotification}/>
+      <ErrorNotification message={errorMessage}/>
       <div>
         Search: <Search newFilter={newFilter} handleNewFilter={handleNewFilter} />
       </div>
@@ -106,6 +139,5 @@ const App = () => {
     </div>
   )
 }
-
 
 export default App

@@ -1,8 +1,8 @@
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
 import AddForm from './components/AddForm'
 import Search from './components/Search'
-import Persons from './components/Persons'
+import Person from './components/Persons'
 import personService from './services/Contacts'
 
 const App = () => {
@@ -18,6 +18,20 @@ const App = () => {
         setPersons(initialContacts)
       })
   }, [])
+
+  const removePersonOf = id => {
+    console.log('you want to remove ', id)
+
+    let deletedPerson = persons.find(p => p.id === id)
+
+    if (window.confirm(`Do you really want to delete ${deletedPerson.name}?`)) {
+      personService
+        .remove(id)
+        .then(response => {
+          personService.getAll().then(allContacts => { setPersons(allContacts) })
+        })
+    }
+  }
 
   const addPerson = (event) => {
 
@@ -71,7 +85,8 @@ const App = () => {
       </div>
       <h2>Numbers</h2>
       <div>
-        {<Persons persons={searchPersons} />}
+        {(persons.map(person =>
+          <Person key={person.name} person={person} id={person.id} removePersonid={() => removePersonOf(person.id)} />))}
       </div>
     </div>
   )

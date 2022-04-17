@@ -43,16 +43,31 @@ const App = () => {
       id: persons.length + 1
     }
 
-    persons.some(person => person.name === newName)
-      ? window.alert(`${newName} is already added to the phonebook`)
-      : personService
-        .create(personObject)
-        .then(returnedPerson =>
-          setPersons(persons.concat(returnedPerson)),
-          setNewName(''),
-          setNewFilter('')
-        )
+    if (persons.some(person => person.name === newName)) {
+      const oldPerson = persons.find(p => p.name === newName)
+
+      if (window.confirm(`${newName} is already in the phonebook. Do you want to update the number?`)) {
+        personService
+          .update(oldPerson.id, personObject)
+          .then(returnedPerson => {
+            console.log('returned ', returnedPerson)
+            console.log('oldPerson ', oldPerson)
+            setPersons(persons.map(person => person.id !== oldPerson.id ? person : returnedPerson))}
+          )
+      }
+
+      
+    
+    else(
+    personService
+      .create(personObject)
+      .then(returnedPerson =>
+        setPersons(persons.concat(returnedPerson)),
+        setNewName(''),
+        setNewNumber('')
+      ))
   }
+}
 
   const handleNewPerson = (event) => {
     console.log(event.target.value)
@@ -91,5 +106,6 @@ const App = () => {
     </div>
   )
 }
+
 
 export default App

@@ -1,5 +1,5 @@
 body {
-  margin: 0;
+
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -11,6 +11,24 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+button {
+  background: rgb(11, 11, 104);
+  color: white;
+  font-size: 15px;
+  border: none;
+  padding: 10px, 24px;
+  min-width: 80px;
+  min-height: 30px;
+  box-shadow: rgba(0, 9, 61, .2);
+  position:relative;
+  border-radius : 4px 
+}
+button:hover{
+  background: rgba(11, 11, 104, 0.847);
+  cursor: pointer
+}
+
 .success {
   color: #155724;
   background: #d4edda;

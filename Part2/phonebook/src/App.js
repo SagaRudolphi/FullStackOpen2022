@@ -125,16 +125,14 @@ const App = () => {
       <NotificationSuccessful message={successNotification}/>
       <ErrorNotification message={errorMessage}/>
       <div>
-        Search: <Search newFilter={newFilter} handleNewFilter={handleNewFilter} />
+        <Search newFilter={newFilter} handleNewFilter={handleNewFilter} />
       </div>
       <h2>Add a new</h2>
-      <div>
-        <AddForm addPerson={addPerson} newName={newName} handleNewPerson={handleNewPerson} newNumber={newNumber} handleNewNumber={handleNewNumber} />
-      </div>
+        <AddForm addPerson={addPerson} newName={newName} handleNewPerson={handleNewPerson} newNumber={newNumber} handleNewNumber={handleNewNumber} />    
       <h2>Numbers</h2>
       <div>
         {(persons.map(person =>
-          <Person key={person.name} person={person} id={person.id} removePersonid={() => removePersonOf(person.id)} />))}
+          <Person key={person.name} person={person} removePersonid={() => removePersonOf(person.id)} />))}
       </div>
     </div>
   )

@@ -31,14 +31,17 @@ const App = () => {
     if (window.confirm(`Do you really want to delete ${deletedPerson.name}?`)) {
       personService
         .remove(id)
-        .then(response => {
-          personService.getAll().then(allContacts => { setPersons(allContacts)
-            setSuccess(`${deletedPerson.name} was successfully deleted from the phonebook`)
-            setTimeout(() => {
-              setSuccess(null)
-            }, 5000)
+        .then(() => {
+          personService
+            .getAll()
+            .then(allContacts => {
+              setPersons(allContacts)
+              setSuccess(`${deletedPerson.name} was successfully deleted from the phonebook`)
+              setTimeout(() => {
+                setSuccess(null)
+              }, 5000)
+            })
           })
-        })
         .catch(error => {
           console.log('error!')
           setError(`Couldn't delete contact. ${deletedPerson.name} has already been deleted from the phonebook`)

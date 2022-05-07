@@ -89,15 +89,15 @@ const App = () => {
     else (
       personService
         .create(personObject)
-        .then(returnedPerson => 
-          setPersons(persons.concat(returnedPerson)),
-          setSuccess(`${personObject.name} was successfully added to the phonebook`),
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
+          setSuccess(`${personObject.name} was successfully added to the phonebook`)
           setTimeout(() => {
             setSuccess(null)
-          }, 5000),
-          setNewName(''),
+          }, 5000)
+          setNewName('')
           setNewNumber('')
-        )
+        })
         .catch(error => {
           console.log(error.response.data)
           setError(`Failed to add person. The name needs to be longer than 3 letters.`)

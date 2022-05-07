@@ -26,9 +26,9 @@ const App = () => {
   const removePersonOf = id => {
     console.log('you want to remove ', id)
 
-    let deletedPerson = persons.find(p => p.id === id)
+    let deletedPerson = persons.find(person => person.id === id)
 
-    if (window.confirm(`Do you really want to delete ${deletedPerson.name}?`)) {
+    if (window.confirm(`Do you really want to delete ${deletedPerson.name} ${deletedPerson.id}?`)) {
       personService
         .remove(id)
         .then(() => {
@@ -58,8 +58,7 @@ const App = () => {
 
     const personObject = {
       name: newName,
-      number: newNumber,
-      id: persons.length + 1
+      number: newNumber
     }
 
     if (persons.some(person => person.name === newName)) {

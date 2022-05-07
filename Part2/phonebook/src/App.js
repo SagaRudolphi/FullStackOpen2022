@@ -101,6 +101,9 @@ const App = () => {
         .catch(error => {
           console.log(error.response.data)
           setError(`Failed to add person. The name needs to be longer than 3 letters.`)
+          setTimeout(() => {
+            setError(null)
+          }, 5000)
         })
     )
   }

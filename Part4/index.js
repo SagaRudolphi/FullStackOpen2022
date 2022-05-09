@@ -11,19 +11,7 @@ server.listen(config.PORT, () => {
   logger.info(`Server running on port ${config.PORT}`)
 })
 
-/* const blogSchema = new mongoose.Schema({
-  title: String,
-  author: String,
-  url: String,
-  likes: Number
-})
-
-const Blog = mongoose.model('Blog', blogSchema)
-
-const mongoUrl = config.MONGODB_URI
-mongoose.connect(mongoUrl) */
-
-/* app.get('/api/blogs', (request, response) => {
+app.get('/api/blogs', (request, response) => {
   Blog
     .find({})
     .then(blogs => {
@@ -40,5 +28,4 @@ app.post('/api/blogs', (request, response) => {
       response.status(201).json(result)
     })
 })
- */
 

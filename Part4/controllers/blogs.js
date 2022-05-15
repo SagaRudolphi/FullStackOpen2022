@@ -13,7 +13,7 @@ blogsRouter.post('/', async (request, response) => {
   logger.info(blog)
 
   const newBlog = await blog.save()
-  response.status(201).json(result)
+  response.status(201).json(newBlog)
 })
   
   module.exports = blogsRouter
